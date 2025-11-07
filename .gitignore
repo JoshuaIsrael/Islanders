@@ -1,0 +1,135 @@
+################################################################################
+# Unreal Engine Project .gitignore (merged & optimized)
+# Strategy: ignore everything by default, then explicitly whitelist what matters.
+################################################################################
+
+# Ignore all files by default, but scan directories
+*
+!*/
+
+# ------------------------------------------------------------------------------
+# Whitelist essential project files
+# ------------------------------------------------------------------------------
+
+# Git internals
+!/.git*
+
+# Unreal project descriptor
+!/*.uproject
+
+# Core source/config/plugin folders
+!/Source/**
+!/Config/**
+!/Plugins/**
+
+# Content: allow only asset/map files (tracked via Git LFS)
+!/Content/**/*.uasset
+!/Content/**/*.umap
+
+# RawContent: allow everything (for LFS)
+!/RawContent/**/*
+
+# ------------------------------------------------------------------------------
+# Re-ignore build/generated artifacts (including inside Plugins)
+# ------------------------------------------------------------------------------
+
+**/Binaries/**
+**/Intermediate/**
+**/Saved/**
+**/DerivedDataCache/**
+**/Build/**
+**/Build/*/**
+!**/Build/*/PakBlacklist*.txt
+!**/Build/**/*.ico
+
+# ------------------------------------------------------------------------------
+# Engine / Platform generated files
+# ------------------------------------------------------------------------------
+
+# Windows
+ehthumbs.db
+Thumbs.db
+
+# macOS
+.DS_Store
+.DS_Store?
+.AppleDouble
+.LSOverride
+._*
+
+# Linux
+*~
+.directory
+
+# Vim
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+
+# ------------------------------------------------------------------------------
+# IDE: Visual Studio / VSCode / Rider
+# ------------------------------------------------------------------------------
+
+# Visual Studio cache & user files
+.vs/
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.vsconfig
+
+# Visual Studio database/cache files
+*.VC.db
+*.VC.opendb
+*.opendb
+*.opensdf
+*.sdf
+
+# Visual Studio solution/projects
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+
+# Visual Studio Code
+.vscode/
+**/.history
+
+# JetBrains Rider
+.idea/
+*.sln.DotSettings
+*.sln.DotSettings.user
+*.csproj
+
+# ------------------------------------------------------------------------------
+# Compiled artifacts
+# ------------------------------------------------------------------------------
+
+# Object / Static / Dynamic libs
+*.slo
+*.lo
+*.o
+*.obj
+*.lai
+*.la
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+
+# Precompiled headers
+*.gch
+*.pch
+
+# Executables
+*.exe
+*.out
+*.app
+*.ipa
+
+# Fortran modules
+*.mod
