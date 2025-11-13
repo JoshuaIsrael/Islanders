@@ -11,7 +11,6 @@ class USpringArmComponent;
 class UCameraComponent;
 class UFloatingPawnMovement;
 class UInputAction;
-class UInputMappingContext;
 
 /**
  * Pawn class for a strategy-style camera with panning, rotation, and zooming.
@@ -26,7 +25,7 @@ public:
 
 	virtual void Tick(float DeltaSeconds) override;
 	virtual void BeginPlay() override;
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Camera")
@@ -71,9 +70,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Movement")
 	bool bPanRelativeToCamera = true;
 
-	UPROPERTY(EditDefaultsOnly, Category="Input")
-	TObjectPtr<UInputMappingContext> InputMappingContext;
-
+	// Input actions only (mapping context is managed by the PlayerController)
 	UPROPERTY(EditDefaultsOnly, Category="Input")
 	TObjectPtr<UInputAction> MoveCamera;
 
@@ -96,7 +93,7 @@ private:
 	/* Rotation input: positive = clockwise, negative = counter-clockwise */
 	float RotateInput = 0.f;
 
-	/* Zoom input: positive = zoom in, negative = zoom out */
+	/* Target yaw for smooth rotation */
 	float TargetYaw = 0.f;
 
 	/* Desired arm length based on zoom input */

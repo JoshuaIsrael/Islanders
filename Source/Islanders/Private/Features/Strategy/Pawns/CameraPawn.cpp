@@ -63,21 +63,6 @@ void ACameraPawn::BeginPlay()
 	{
 		GetWorldTimerManager().SetTimer(UpdateTimerHandle, this, &ACameraPawn::UpdateStep, UpdateIntervalSeconds, /*bLoop*/ true);
 	}
-
-	// Install mapping context
-	if (const APlayerController* PC = Cast<APlayerController>(GetController()))
-	{
-		if (const ULocalPlayer* LocalPlayer = PC->GetLocalPlayer())
-		{
-			if (UEnhancedInputLocalPlayerSubsystem* EnhancedInput = LocalPlayer->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>())
-			{
-				if (InputMappingContext)
-				{
-					EnhancedInput->AddMappingContext(InputMappingContext, /*Priority*/0);
-				}
-			}
-		}
-	}
 }
 
 void ACameraPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
