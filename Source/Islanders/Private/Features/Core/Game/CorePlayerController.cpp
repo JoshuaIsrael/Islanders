@@ -16,6 +16,12 @@ ACorePlayerController::ACorePlayerController()
 void ACorePlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	// Strategy camera: show mouse and allow UI interaction
+	FInputModeGameAndUI InputMode;
+	InputMode.SetHideCursorDuringCapture(false);
+	SetInputMode(InputMode);
+	bShowMouseCursor = true;
 
 	// Install controller-level mapping context (switch pawn, menus, etc.)
 	if (const ULocalPlayer* LocalPlayer = GetLocalPlayer())
@@ -99,48 +105,6 @@ void ACorePlayerController::SetupInputComponent()
 
 void ACorePlayerController::OnSwitchPawnPressed(const FInputActionValue& Value)
 {
-	// Predict next pawn on the client so we can set cursor & input mode
-	const ACorePlayerState* CorePlayerState = GetPlayerState<ACorePlayerState>();
-	APawn* Current = GetPawn();
-	APawn* NextPawn = nullptr;
-
-	if (CorePlayerState && Current)
-	{
-		if (Current == CorePlayerState->Character && CorePlayerState->CameraPawn)
-		{
-			NextPawn = CorePlayerState->CameraPawn;
-		}
-		else if (Current == CorePlayerState->CameraPawn && CorePlayerState->Character)
-		{
-			NextPawn = CorePlayerState->Character;
-		}
-		else
-		{
-			NextPawn = CorePlayerState->Character
-				? CorePlayerState->Character
-				: CorePlayerState->CameraPawn;
-		}
-	}
-
-	const bool bNextIsCamera =
-		(CorePlayerState && NextPawn && NextPawn == CorePlayerState->CameraPawn);
-
-	if (bNextIsCamera)
-	{
-		// Strategy camera: show mouse and allow UI interaction
-		FInputModeGameAndUI InputMode;
-		InputMode.SetHideCursorDuringCapture(false);
-		SetInputMode(InputMode);
-		bShowMouseCursor = true;
-	}
-	else
-	{
-		// Character: game-only input, hide mouse
-		const FInputModeGameOnly InputMode;
-		SetInputMode(InputMode);
-		bShowMouseCursor = false;
-	}
-
 	// Tell the server to actually switch the pawn
 	Server_SwitchPawn();
 }
