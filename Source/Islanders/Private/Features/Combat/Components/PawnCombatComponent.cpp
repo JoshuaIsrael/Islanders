@@ -3,6 +3,9 @@
 
 #include "Features/Combat/Components/PawnCombatComponent.h"
 
+#include "Features/Combat/Animations/CombatAnimInstance.h"
+#include "GameFramework/Character.h"
+
 
 UPawnCombatComponent::UPawnCombatComponent()
 {
@@ -11,5 +14,41 @@ UPawnCombatComponent::UPawnCombatComponent()
 
 void UPawnCombatComponent::OnToggleCombat(const FInputActionValue& Value)
 {
-	bIsInCombat = !bIsInCombat;
+	bInCombat = !bInCombat;
+
+	UCombatAnimInstance* CombatAnimInstance = GetCombatAnimInstance();
+	if (!CombatAnimInstance)
+	{
+		return;
+	}
+
+	CombatAnimInstance->bInCombat = bInCombat;
+}
+
+UCombatAnimInstance* UPawnCombatComponent::GetCombatAnimInstance() const
+{
+	const ACharacter* OwnerCharacter = Cast<ACharacter>(GetOwner());
+	if (!OwnerCharacter)
+	{
+		return nullptr;
+	}
+
+	if (!OwnerCharacter->GetMesh())
+	{
+		return nullptr;
+	}
+
+	UAnimInstance* AnimInstance = OwnerCharacter->GetMesh()->GetAnimInstance();
+	if (!AnimInstance)
+	{
+		return nullptr;
+	}
+
+	UCombatAnimInstance* CombatAnimInstance = Cast<UCombatAnimInstance>(AnimInstance);
+	if (!CombatAnimInstance)
+	{
+		return nullptr;
+	}
+
+	return CombatAnimInstance;
 }
